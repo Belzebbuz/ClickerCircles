@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GameUI : MonoBehaviour
 {
     public static GameUI Instance { get; private set; }
     [SerializeField] private Text textScore;
-    [SerializeField] private Text textLife;
 
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject _gameManager;
+    [SerializeField] private GameObject _spawnPoint;
+    [SerializeField] private GameObject _missPoint;
 
     [SerializeField] private GameObject pausePanel;
 
@@ -20,12 +23,12 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Sprite pauseSprite;
     [SerializeField] private Sprite unpauseSprite;
 
-    [SerializeField] private Text scoreUIText;
+    [SerializeField] private Text scorePauseText;
     [SerializeField] private Text winUIText;
-    [SerializeField] private Text comboText;
-    [SerializeField] private Text hitText;
-    [SerializeField] private Text missText;
-
+    [SerializeField] private Text gradeText;
+    
+    public Text textCombo;
+    public Text hitRate;
     private Image pauseImage;
    
     public bool gameOnPause;
@@ -36,45 +39,45 @@ public class GameUI : MonoBehaviour
         Instance = this;
     }
     private void Start()
-    {       
+    {
+
         gameOnPause = false;
         pauseImage = pauseButton.gameObject.GetComponent<Image>();        
     }
 
     private void Update ()
     {
-        textScore.text = GameManager.Instance.score.ToString();
-        textLife.text = "Lifes: " + GameManager.Instance.lifeCount.ToString();
-        comboText.text = "Combo " + GameManager.Instance.countCombo.ToString() + "x";
-        hitText.text = "Hit " + GameManager.Instance.countHit.ToString();
-        missText.text = "Miss " + GameManager.Instance.countMiss.ToString();
         LoseGameUI();
         WinGameUI();
 	}
 
     private void LoseGameUI()
     {
+        GameManager.Instance.Grade();
         if (GameManager.Instance._loseGame)
         {
             pausePanel.gameObject.SetActive(true);
             pauseButton.gameObject.SetActive(false);
+            gradeText.text = "Grade : " + GameManager.Instance.grade;
             winUIText.text = "You lose!";
-            scoreUIText.text = "Score: " + GameManager.Instance.score.ToString();
+            scorePauseText.text = "Score : " + GameManager.Instance.score.ToString();
         }
     }
     private void WinGameUI()
     {
-        if(GameManager.Instance._winGame)
+        GameManager.Instance.Grade();
+        if (GameManager.Instance._winGame)
         {
             pausePanel.gameObject.SetActive(true);
             pauseButton.gameObject.SetActive(false);
+            gradeText.text = "Grade : " + GameManager.Instance.grade;
             winUIText.text = "You win!";
-            scoreUIText.text = "Score: " + GameManager.Instance.score.ToString();
+            scorePauseText.text ="Score : " + GameManager.Instance.score.ToString();
         }
     }
     public void Restart()
     {
-        SceneManager.LoadScene("Game");       
+       SceneManager.LoadScene("Game");       
     }
 
     public void BackToMenu()
@@ -84,13 +87,15 @@ public class GameUI : MonoBehaviour
 
     public void Pause_Game()
     {
+        GameManager.Instance.Grade();
         if (gameOnPause == false)
         {
+            Time.timeScale = 0;
+            gradeText.text = "Grade : " + GameManager.Instance.grade;
             pauseImage.sprite = unpauseSprite;
             gameOnPause = true;
-            Time.timeScale = 0;
             pausePanel.gameObject.SetActive(true);
-            scoreUIText.text = "Score: " + GameManager.Instance.score.ToString();
+            scorePauseText.text = "Score : " + GameManager.Instance.score.ToString();
             GameManager.Instance.gameModAudio.Pause();
         }
         else
@@ -102,5 +107,6 @@ public class GameUI : MonoBehaviour
             pausePanel.gameObject.SetActive(false);
         }
     }
-   
+
+
 }

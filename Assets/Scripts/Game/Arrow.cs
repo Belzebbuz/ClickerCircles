@@ -8,10 +8,6 @@ public class Arrow : MonoBehaviour
     public ArrowsType arrT;
     private Color arrowColor;
 
-    private void Awake()
-    {
-        //CheckRing.Instance.ringExitEvent += missPlus;
-    }
     void FixedUpdate ()
     {
         moveArrow();
@@ -25,10 +21,6 @@ public class Arrow : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position,
             new Vector3(transform.position.x + GameManager.Instance.speedArrow, transform.position.y), Time.deltaTime);
-    }
-    public void ColorSwap()
-    { 
-        GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     private void DestroyArrow()

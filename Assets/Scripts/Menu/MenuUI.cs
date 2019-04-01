@@ -23,6 +23,7 @@ public class MenuUI : MonoBehaviour
 
     [SerializeField] private Text levelText;
     [SerializeField] private Text timerText;
+
     
 
     public bool _easyModOn;
@@ -106,6 +107,7 @@ public class MenuUI : MonoBehaviour
         menuPanel.gameObject.SetActive(false);
         levelPanel.gameObject.SetActive(true);
     }
+   
 
     public void ExitGame()
     {

@@ -5,19 +5,31 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Button : MonoBehaviour, IPointerClickHandler
+public class Button : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private ArrowsType arrowType;
+    private string grade;
+
+    private float fcountHit;
+    private float fcountArrow;
+    private int scoreAdd;
+    private void Awake()
+    {
+        scoreAdd = 0;
+    }
     private void CheckZone()
     {
         if (CheckRing.Instance.checker && arrowType == CheckRing.Instance.triggerIcon.arrT)
         {
-            CheckRing.Instance.colorRing.color = new Color(0.172f, 0.849f, 0.471f);
-            StartCoroutine(Wait());
+            HealthBar.Instance.AddHealth();
+            CheckRing.Instance.ColorRing();
             Destroy(CheckRing.Instance.triggerIcon.gameObject);
             GameManager.Instance.countHit += 1;
             GameManager.Instance.countCombo++;
-            GameManager.Instance.score += 10 * GameManager.Instance.countCombo;
+            scoreAdd = 10 * GameManager.Instance.countCombo;
+            GameManager.Instance.AddScore(scoreAdd);
+            BackgroundColor.Instance.BackgroundColorSwitch();
+            CountHitRate();
         }
         else
         {
@@ -29,20 +41,24 @@ public class Button : MonoBehaviour, IPointerClickHandler
     {
         if (CheckRing.Instance.checker && arrowType == CheckRing.Instance.triggerIcon.arrT)
             GameManager.Instance.miss = false;
-       
     }
-    public void OnPointerClick(PointerEventData eventData)
+
+    
+    private void CountHitRate()
+    {
+        fcountArrow = GameManager.Instance.countArrow;
+        fcountHit = GameManager.Instance.countHit;
+        GameManager.Instance.hitCountRate = (fcountHit / fcountArrow) * 100;
+        GameUI.Instance.hitRate.text = "Hit rate : " + GameManager.Instance.hitCountRate.ToString("#0.00") + " %";
+        
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
     {
         CheckZone();
+        GameUI.Instance.textCombo.text = "Combo: " + GameManager.Instance.countCombo.ToString() + "x";
         Vibration.Vibrate(30);
     }
 
-    public IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(0.12f);
-        CheckRing.Instance.colorRing.color = Color.black;
-    }
-   
- 
-
+    
 }

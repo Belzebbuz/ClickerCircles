@@ -38,14 +38,24 @@ public class Border : MonoBehaviour
     }
     public Vector3 GetSpawnPoint()
     {
-        return new Vector3(LeftBorder - 1, TopBorder - TopBorder * coefHiegth, 0);
+        return new Vector3(LeftBorder - 1, TopBorder - TopBorder * coefHiegth, 1);
     }
     public Vector3 GetCheckRingPoint()
     {
         return new Vector3(CenterOX, TopBorder - TopBorder * coefHiegth, 0);
     }
-    public Vector3 MissPoint()
+    public Vector3 GetMissPoint()
     {
-        return new Vector3(RightBorder - 1.5f, TopBorder - TopBorder * coefHiegth, 0);
+        return new Vector3(CenterOX+0.527f, TopBorder - TopBorder * coefHiegth, 0);
+    }
+
+    public Vector3 GetHealthBarPoint()
+    {
+        return new Vector3(CenterOX, TopBorder - 0.1f, 0);
+    }
+
+    public float DistanceFromSpawn()
+    {
+        return CenterOX - (LeftBorder - 1);
     }
 }
