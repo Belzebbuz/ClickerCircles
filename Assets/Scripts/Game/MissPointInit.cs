@@ -20,6 +20,7 @@ public class MissPointInit : MonoBehaviour
         GameManager.Instance.miss = true;
         ComboExit();
         CountHitRate();
+        CheckRing.Instance.ColorRingRed();
         GameUI.Instance.textCombo.text = "Combo: " + GameManager.Instance.countCombo.ToString() + "x";
         BackgroundColor.Instance.MissBackgroundColor();
     }

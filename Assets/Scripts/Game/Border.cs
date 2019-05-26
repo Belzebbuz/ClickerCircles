@@ -12,6 +12,7 @@ public class Border : MonoBehaviour
     private float height;
     private float CenterOX;
     private float TopBorder;
+    private float BottonBorder;
     private float LeftBorder;
     private float RightBorder;
 
@@ -25,8 +26,14 @@ public class Border : MonoBehaviour
         width = camera.pixelWidth;
         RightBorder = camera.ScreenToWorldPoint(new Vector2(width, 0)).x;
         TopBorder = camera.ScreenToWorldPoint(new Vector2(0, height)).y;
+        BottonBorder = camera.ScreenToWorldPoint(new Vector2(0, height/3.5f)).y;
         LeftBorder = camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
         CenterOX = camera.ScreenToWorldPoint(new Vector2(width * 0.5f, 0)).x;
+
+    }
+    public Vector3 BandPoint()
+    {
+        return new Vector3(CenterOX +0.7f, BottonBorder, 0);
     }
     public float colorPoint()
     {

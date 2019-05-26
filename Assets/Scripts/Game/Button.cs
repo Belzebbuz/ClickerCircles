@@ -22,7 +22,7 @@ public class Button : MonoBehaviour, IPointerDownHandler
         if (CheckRing.Instance.checker && arrowType == CheckRing.Instance.triggerIcon.arrT)
         {
             HealthBar.Instance.AddHealth();
-            CheckRing.Instance.ColorRing();
+            CheckRing.Instance.ColorRingGreen();
             Destroy(CheckRing.Instance.triggerIcon.gameObject);
             GameManager.Instance.countHit += 1;
             GameManager.Instance.countCombo++;

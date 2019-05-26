@@ -12,7 +12,8 @@ public class CheckRing : MonoBehaviour
 
     public bool checker;
 
-    private Color colorSwitch = new Color(0.172f, 0.849f, 0.471f);
+    private Color colorSwitchGreen = new Color(0.172f, 0.849f, 0.471f);
+    private Color colorSwitchRed = new Color(0.858f, 0.117f, 0.117f);
 
     public Arrow triggerIcon { get; private set; }
     
@@ -41,11 +42,18 @@ public class CheckRing : MonoBehaviour
         triggerIcon = null;
     }
     
-    public void ColorRing()
+    public void ColorRingGreen()
     {
-        colorRing.DOColor(colorSwitch, 0.3f).OnComplete(() =>
+        colorRing.DOColor(colorSwitchGreen, 0.5f).OnComplete(() =>
         {
-            colorRing.DOColor(Color.black, 0.3f);
+            colorRing.DOColor(Color.black, 0.5f);
+        });
+    }
+    public void ColorRingRed()
+    {
+        colorRing.DOColor(colorSwitchRed, 0.5f).OnComplete(() =>
+        {
+            colorRing.DOColor(Color.black, 0.5f);
         });
     }
 }

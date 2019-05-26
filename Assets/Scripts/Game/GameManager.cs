@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     [SerializeField] private CheckRing prefabCheckRing;
+    [SerializeField] private GameObject prefabBands;
 
 
     [SerializeField] private AudioClip easyModMusic;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         gameModAudio = GetComponent<AudioSource>();
         SetLevel();
         CheckRingInit();
+        BandsInit();
         Instance = this;
     }
     private void Start()
@@ -130,8 +132,10 @@ public class GameManager : MonoBehaviour
         CheckRing checkRing = Instantiate(prefabCheckRing);
         checkRing.transform.position = Border.Instance.GetCheckRingPoint();
     }
-
-
+    private void BandsInit()
+    {
+        Instantiate(prefabBands).transform.position = Border.Instance.BandPoint();
+    }
 
     public void AddScore(int value)
     {
